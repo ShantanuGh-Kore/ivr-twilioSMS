@@ -1,0 +1,29 @@
+{
+    "server": {
+        "port": 8003
+    },
+    "app": {
+        "apiPrefix" : "/webhooktest",
+        "url": "http://localhost"
+    },
+    "credentials": {
+        "apikey": "<bot api secret>",
+        "appId": "<bot client id>",
+        "botId" : "<bot stream id>",
+        "botName" : "<bot name>"
+    },
+    "twilioId": {
+        "accountSid" : "<twilio account sid>",
+        "authToken" :"<twilio auth tokem>",
+        "messagingServiceSid" : "<twilio messaging service id"
+    },
+    "redis": {
+        "options": {
+            "host": "localhost",
+            "port": 6379
+        },
+        "available": true
+    },
+    "supportsMessageAck": true,
+    "languages":["en"]
+}
