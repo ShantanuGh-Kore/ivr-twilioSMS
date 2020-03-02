@@ -32,35 +32,39 @@ module.exports = {
 			var text;
 			console.log("on_webhook ==> calling API for hookCallAPIFromBotkit");
 			console.log("wait on... " + new Date());
-			console.log("Userid:@@@@@@: ", JSON.stringify(data.context.session.UserContext));
-			console.log("Bot User Session:$$$$$$$$$: ", data.context.session.BotUserSession);
 			sdk.saveData(requestId, data).then(function() {
 				if(data.context.smsText){
-					text = data.context.smsText;
-				} else {
-					var response = data.context.BillingSummary.response.body.retrievePolicyBillingSummariesResponse.billingSummaries;
-					var policynum=response.policyBillingSummary[0].policy.policyNumber;
-					var endingnum=policynum.substr(9,13);
-					text = "As of today you have a total balance of $"+response.policyBillingSummary[0].billingSummary.payOffAmount+ " and a minimum of $ "+
-response.policyBillingSummary[0].billingSummary.currentBalance +" was due on "+response.policyBillingSummary[0].billingSummary.bill.dueDate 
-+" on your policy ending in "+endingnum;
+					text = data.context.smsText;				
+					var ani = data.context.session.BotUserSession.ivr.ani;
+					ani = '+1'+ ani.split('@')[0];
+					console.log("User ANI#### ",ani);
+					console.log("User text: ", text);
+					for (var i = 0; i<text.length;i++){
+						if (i === text.length - 1){
+							smsClient.messages.create({
+    							body: text[i],
+    							to: ani,  // Text this number
+    							messagingServiceSid: messagingServiceSid, // From a valid Twilio messageService id
+							}).then((twilioResp) => {
+								data.context.twilioResp = twilioResp;
+								console.log(twilioResp);
+								sdk.respondToHook(data);
+								console.log("wait done... " + new Date());
+							});
+						} else {
+							smsClient.messages.create({
+    							body: text[i],
+    							to: ani,  // Text this number
+    							messagingServiceSid: messagingServiceSid, // From a valid Twilio messageService id
+							}).then((twilioResp) => {
+								console.log("wait done... " + new Date());
+								console.log(twilioResp);
+							});
+							
+						}
+					};
+					callback(null, new sdk.AsyncResponse());
 				};
-				var ani = data.context.session.BotUserSession.ivr.ani;
-				ani = ani.split('@');
-				ani = '+1'+ani[0];
-				console.log("User ANI#### ",ani);
-				console.log("User text: ", text)
-				smsClient.messages.create({
-    				body: text,
-    				to: ani,  // Text this number
-    				messagingServiceSid: messagingServiceSid, // From a valid Twilio messageService id
-				}).then((twilioResp) => {
-					data.context.twilioResp = twilioResp;
-					//console.log(twilioResp)
-					sdk.respondToHook(data)
-					console.log("wait done... " + new Date());
-				});
-				callback(null, new sdk.AsyncResponse());
 			});
 		}        
 	},

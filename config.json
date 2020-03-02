@@ -15,11 +15,11 @@
     "twilioId": {
         "accountSid" : "<twilio account sid>",
         "authToken" :"<twilio auth tokem>",
-        "messagingServiceSid" : "<twilio messaging service id"
+        "messagingServiceSid" : "<twilio messaging service id>"
     },
     "redis": {
         "options": {
-            "host": "localhost",
+            "host": "csaa-redis.8vgk78.ng.0001.use1.cache.amazonaws.com",
             "port": 6379
         },
         "available": true
