@@ -28,7 +28,7 @@
     "escape-html": "^1.0.3",
     "esprima": "^1.0.4",
     "etag": "^1.7.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "finalhandler": "^1.1.2",
     "forwarded": "^0.1.2",
     "has-color": "^0.1.7",
